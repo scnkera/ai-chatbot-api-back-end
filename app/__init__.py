@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 import os
-from .routes.users_routes import users_bp
+from .routes.user_routes import users_bp
 from .db import db, migrate
 from .models import user
 # Import models, blueprints, and anything else needed to set up the app or database
@@ -22,6 +22,7 @@ def create_app(config=None):
 
 
     # Register Blueprints 
+    app.register_blueprint(users_bp)
 
     CORS(app)
     return app
