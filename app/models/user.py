@@ -5,6 +5,8 @@ from typing import Optional
 from datetime import datetime
 
 class User(db.Model):
+    __tablename__ = 'users'
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(String(25))
     email: Mapped[str] = mapped_column(String(50), default=None, nullable=True)
