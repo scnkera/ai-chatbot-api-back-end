@@ -50,6 +50,17 @@ def one_user(app):
     db.session.commit()
 
 
+@pytest.fixture
+def one_character(app):
+    new_user = User(
+        username="Snoop Dog", 
+        description="Rapper, singer, cook, and icon",
+        created_at="2024-12-27T22:44:52.395567"
+        )
+    db.session.add(new_user)
+    db.session.commit()
+
+
 # This fixture gets called in every test that
 # references "three_users"
 # This fixture creates three users and saves

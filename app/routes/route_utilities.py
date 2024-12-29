@@ -1,7 +1,7 @@
 from flask import abort, make_response
 from ..db import db
-from app.models.task import Task
-from app.models.goal import Goal
+from app.models.user import User
+from app.models.character import Character
 from sqlalchemy import desc, asc
 from datetime import datetime
 
