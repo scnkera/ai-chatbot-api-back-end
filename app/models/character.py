@@ -3,14 +3,16 @@ from sqlalchemy import ForeignKey, String
 from ..db import db
 from typing import Optional
 from datetime import datetime
+from typing import List
 
 class Character(db.Model):
     __tablename__ = 'characters'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)  # Explicitly define the column
-    description: Mapped[str] = mapped_column(String(255), nullable=False)  # Explicitly define the column
+    description: Mapped[str] = mapped_column(String(5000), nullable=False)  # Explicitly define the column
     created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    training_messages: Mapped[List["Training_Message"]] = relationship("Training_Message", back_populates="character", cascade="all, delete")
 
     def to_dict(self):
 
@@ -18,7 +20,7 @@ class Character(db.Model):
             id=self.id,
             name=self.name,
             description=self.description,
-            # created_at=self.created_at.isoformat()
+            created_at=self.created_at.isoformat()
         )
 
         return user_dict

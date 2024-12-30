@@ -126,7 +126,7 @@ def test_update_character(client, one_character):
     }
 
     character = db.session.get(Character, 1)
-    assert character.name == "Updated Character Title"
+    assert character.name == "Updated Character Name"
     assert character.description == "Updated Test Description"
 
 

@@ -5,6 +5,8 @@ from flask.signals import request_finished
 from dotenv import load_dotenv
 import os
 from app.models.user import User
+from app.models.character import Character
+from app.models.training_message import Training_Message
 from datetime import datetime
 
 load_dotenv()
@@ -52,19 +54,51 @@ def one_user(app):
 
 @pytest.fixture
 def one_character(app):
-    new_user = User(
-        username="Snoop Dog", 
+    new_character = Character(
+        name="Snoop Dog", 
         description="Rapper, singer, cook, and icon",
         created_at="2024-12-27T22:44:52.395567"
         )
-    db.session.add(new_user)
+    db.session.add(new_character)
     db.session.commit()
+
+@pytest.fixture
+def one_training_message(app):
+    character = Character.query.first()
+    if character is None:
+        # Create a default character with a description
+        character = Character(
+            name="Snoop Dog", 
+            description="Rapper, singer, cook, and icon",
+            created_at="2024-12-27T22:44:52.395567"
+            )
+        db.session.add(character)
+        db.session.commit()
+
+    new_training_message = Training_Message(
+        message="I love ice cream",
+        created_at="2024-12-27T22:44:52.395567"
+        )
+    db.session.add(new_training_message)
+    db.session.commit()
+
+# @pytest.fixture
+# def one_training_message(app):
+#     new_training_message = Training_Message(
+#         character_id="kristenstern12", 
+#         character="christinegidffd@yahoo.com",
+#         message="baalugawahel",
+#         created_at="2024-12-27T22:44:52.395567"
+#         )
+#     db.session.add(new_training_message)
+#     db.session.commit()
 
 
 # This fixture gets called in every test that
 # references "three_users"
 # This fixture creates three users and saves
 # them in the database
+
 @pytest.fixture
 def three_users(app):
     db.session.add_all([
@@ -107,24 +141,38 @@ def completed_user(app):
 
 
 # This fixture gets called in every test that
-# references "one_goal"
-# This fixture creates a goal and saves it in the database
-@pytest.fixture
-def one_goal(app):
-    new_goal = Goal(title="Build a habit of going outside daily")
-    db.session.add(new_goal)
-    db.session.commit()
+# references "one_training_message"
+# This fixture creates a training_message and saves it in the database
+# @pytest.fixture
+# def one_training_message(app, db):
+#     # Create a default character if needed
+#     character = Character.query.first()
+#     if character is None:
+#         character = Character(name="Default Character", description="A default description")
+#         db.session.add(character)
+#         db.session.commit()
+    
+#     # Create a training message for that character
+#     training_message = TrainingMessage(
+#         character_id=character.id, 
+#         message="Sample message", 
+#         created_at=datetime.now()
+#     )
+#     db.session.add(training_message)
+#     db.session.commit()
+
+#     return training_message
 
 
 # This fixture gets called in every test that
-# references "one_user_belongs_to_one_goal"
-# This fixture creates a user and a goal
-# It associates the goal and user, so that the
-# goal has this user, and the user belongs to one goal
+# references "one_user_belongs_to_one_training_message"
+# This fixture creates a user and a training_message
+# It associates the training_message and user, so that the
+# training_message has this user, and the user belongs to one training_message
 @pytest.fixture
-def one_user_belongs_to_one_goal(app, one_goal, one_user):
+def one_user_belongs_to_one_training_message(app, one_training_message, one_user):
     user = User.query.first()
-    goal = Goal.query.first()
-    goal.users.append(user)
+    training_message = Training_Message.query.first()
+    training_message.users.append(user)
     db.session.commit()
 
