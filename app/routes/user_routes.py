@@ -1,7 +1,7 @@
 from flask import Blueprint, abort, make_response, request, Response
 from ..db import db
 from ..models.user import User
-# from .route_utilities import validate_model, create_model
+from .route_utilities import validate_model, create_model
 import requests
 import os
 
@@ -58,35 +58,3 @@ def delete_user(user_id):
     response = {"details": f"User {user_id} \"{user.username}\" successfully deleted"}
 
     return response
-
-
-def validate_model(cls, model_id):
-
-    # checks for valid input
-    try: 
-        model_id = int(model_id)
-    except: 
-        abort(make_response({"message": f"{cls.__name__} id {model_id} is invalid"}, 400))
-
-
-    # returns user with the corresponding user_id
-    query = db.select(cls).where(cls.id == model_id)
-    model = db.session.scalar(query)
-
-    if not model:
-        abort(make_response({"message": f"{cls.__name__} {model_id} not found."}, 404))
-
-    return model
-
-def create_model(cls, model_data):
-    try:
-        new_model = cls.from_dict(model_data)
-        
-    except KeyError as error:
-        response = {"details": "Invalid data"}
-        abort(make_response(response, 400))
-    
-    db.session.add(new_model)
-    db.session.commit()
-
-    return {cls.__name__.lower(): new_model.to_dict()}, 201

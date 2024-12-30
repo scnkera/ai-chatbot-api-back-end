@@ -1,10 +1,12 @@
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import ForeignKey, String
 from ..db import db
 from typing import Optional
 from datetime import datetime
 
 class User(db.Model):
+    __tablename__ = 'users'
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(String(25))
     email: Mapped[str] = mapped_column(String(50), default=None, nullable=True)
