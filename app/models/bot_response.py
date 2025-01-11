@@ -6,4 +6,4 @@ from datetime import datetime
 from typing import List
 
 class BotResponses(db.Model):
-    pass
+    __tablename__ = 'bot_responses'
