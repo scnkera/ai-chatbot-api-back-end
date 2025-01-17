@@ -30,6 +30,7 @@ def create_app(config=None):
     app.register_blueprint(users_bp)
     app.register_blueprint(characters_bp)
     app.register_blueprint(training_messages_bp)
+    app.register_blueprint(bot_response_bp)
 
     CORS(app)
     return app
