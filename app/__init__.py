@@ -6,10 +6,8 @@ from .routes.character_routes import characters_bp
 from .routes.training_message_routes import training_messages_bp
 from .db import db, migrate
 from .models import user
-from .models import character
-from .models import training_message
-
-# Import models, blueprints, and anything else needed to set up the app or database
+# from .models import character
+# from .models import training_message
 
 
 def create_app(config=None):
@@ -28,9 +26,9 @@ def create_app(config=None):
 
     # Register Blueprints 
     app.register_blueprint(users_bp)
-    app.register_blueprint(characters_bp)
-    app.register_blueprint(training_messages_bp)
-    app.register_blueprint(bot_response_bp)
+    # app.register_blueprint(characters_bp)
+    # app.register_blueprint(training_messages_bp)
+    # app.register_blueprint(bot_response_bp)
 
     CORS(app)
     return app
